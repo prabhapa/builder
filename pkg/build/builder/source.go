@@ -290,6 +290,7 @@ func extractGitSource(ctx context.Context, gitClient GitClient, gitSource *build
 
 	// Check source URI by trying to connect to the server
 	if err := checkSourceURI(gitClient, gitSource.URI, timeout); err != nil {
+		log.V(0).Infof("prabhakar; source.go:293 failed : %v", err)
 		return true, err
 	}
 
@@ -312,6 +313,7 @@ func extractGitSource(ctx context.Context, gitClient GitClient, gitSource *build
 	}
 	startTime := metav1.Now()
 	if err := gitClient.CloneWithOptions(dir, gitSource.URI, cloneOptions...); err != nil {
+		log.V(0).Infof("prabhakar; source.go:315 failed : %v", err)
 		return true, err
 	}
 
@@ -328,6 +330,7 @@ func extractGitSource(ctx context.Context, gitClient GitClient, gitSource *build
 		if err := gitClient.Checkout(dir, commit); err != nil {
 			err = gitClient.PotentialPRRetryAsFetch(dir, gitSource.URI, commit, err)
 			if err != nil {
+				log.V(0).Infof("prabhakar; source.go:331 failed : %v", err)
 				return true, err
 			}
 		}
