@@ -294,7 +294,7 @@ func extractGitSource(ctx context.Context, gitClient GitClient, gitSource *build
 		return true, err
 	}
 
-	cloneOptions := []string{}
+	cloneOptions := []string{"-c","protocol.file.allow=always"}
 	usingRevision := revision != nil && revision.Git != nil && len(revision.Git.Commit) != 0
 	usingRef := len(gitSource.Ref) != 0 || usingRevision
 
